@@ -38,9 +38,9 @@
         <!-- 3D Canvas -->
         <Border Background="#1E1E1E" Margin="10">
             <local:Canvas3D Name="Canvas3DControl"
-                          LineColor="Cyan"
-                          LineThickness="1.5"
-                          RotationSpeed="0.02"/>
+                          LineColor="White"
+                          LineThickness="0.5"
+                          RotationSpeed="0.01"/>
         </Border>
     </DockPanel>
 
