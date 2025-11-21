@@ -1,0 +1,47 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Avalonia3DCanvas;assembly=Avalonia3DCanvas"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        x:Class="Avalonia3DCanvas.Demo.MainWindow"
+        Title="Avalonia 3D Canvas Demo"
+        Width="800" Height="600">
+
+    <DockPanel>
+        <!-- Control Panel -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical" Margin="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,5">
+                <Button Name="GenerateCubeButton" Content="Generate .3DS Cube"
+                       Width="150" Margin="5" Click="GenerateCubeButton_Click"/>
+                <Button Name="GenerateFBXButton" Content="Generate .FBX Cube"
+                       Width="150" Margin="5" Click="GenerateFBXButton_Click"/>
+                <Button Name="LoadModelButton" Content="Load Model File"
+                       Width="150" Margin="5" Click="LoadModelButton_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Name="StartAnimationButton" Content="Start Animation"
+                       Width="150" Margin="5" Click="StartAnimationButton_Click"/>
+                <Button Name="StopAnimationButton" Content="Stop Animation"
+                       Width="150" Margin="5" Click="StopAnimationButton_Click"/>
+                <Button Name="ResetRotationButton" Content="Reset Rotation"
+                       Width="150" Margin="5" Click="ResetRotationButton_Click"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Status Bar -->
+        <Border DockPanel.Dock="Bottom" Background="#333" Padding="10">
+            <TextBlock Name="StatusText" Text="Ready. Click 'Generate .FBX Cube' to test FBX loading, or 'Load Model File' to open your file."
+                      Foreground="White" FontSize="12"/>
+        </Border>
+
+        <!-- 3D Canvas -->
+        <Border Background="#1E1E1E" Margin="10">
+            <local:Canvas3D Name="Canvas3DControl"
+                          LineColor="Cyan"
+                          LineThickness="1.5"
+                          RotationSpeed="0.02"/>
+        </Border>
+    </DockPanel>
+
+</Window>
