@@ -184,10 +184,21 @@ public class Canvas3D : Control
                 face.Item2 < transformedVertices.Count &&
                 face.Item3 < transformedVertices.Count)
             {
-                context.DrawLine(pen, transformedVertices[face.Item1], transformedVertices[face.Item2]);
-                context.DrawLine(pen, transformedVertices[face.Item2], transformedVertices[face.Item3]);
-                context.DrawLine(pen, transformedVertices[face.Item3], transformedVertices[face.Item1]);
+                DrawClippedLine(context, pen, transformedVertices[face.Item1], transformedVertices[face.Item2], bounds);
+                DrawClippedLine(context, pen, transformedVertices[face.Item2], transformedVertices[face.Item3], bounds);
+                DrawClippedLine(context, pen, transformedVertices[face.Item3], transformedVertices[face.Item1], bounds);
             }
+        }
+    }
+
+    private void DrawClippedLine(DrawingContext context, Pen pen, Point p1, Point p2, Rect bounds)
+    {
+        var clippedP1 = p1;
+        var clippedP2 = p2;
+
+        if (LineClipper.ClipLine(ref clippedP1, ref clippedP2, bounds))
+        {
+            context.DrawLine(pen, clippedP1, clippedP2);
         }
     }
 }
