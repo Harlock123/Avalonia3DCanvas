@@ -95,6 +95,28 @@ public class Canvas3D : Control
         InvalidateVisual();
     }
 
+    public void SetMesh(Mesh3D? mesh)
+    {
+        _mesh = mesh;
+        InvalidateVisual();
+    }
+
+    public void CreateTextMesh(string text, string fontFamily = "Arial", double fontSize = 48, double? extrusionDepth = null)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            _mesh = null;
+            InvalidateVisual();
+            return;
+        }
+
+        // Default extrusion depth is 1/4 of the font size
+        double depth = extrusionDepth ?? (fontSize / 4.0);
+
+        _mesh = TextMeshGenerator.GenerateTextMesh(text, fontFamily, fontSize, depth);
+        InvalidateVisual();
+    }
+
     public void StartAnimation()
     {
         if (_isAnimating) return;

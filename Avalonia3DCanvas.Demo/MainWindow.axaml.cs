@@ -103,4 +103,84 @@ public partial class MainWindow : Window
         Canvas3DControl.ResetRotation();
         StatusText.Text = "Rotation reset";
     }
+
+    private void Generate3DTextButton_Click(object? sender, RoutedEventArgs e)
+    {
+        try
+        {
+            // Try the actual text generation
+            var mesh = TextMeshGenerator.GenerateTextMesh("AOWP", "Arial", 100, 25);
+
+            if (mesh.Vertices.Count == 0)
+            {
+                // Fallback to test mesh
+                StatusText.Text = "Text mesh has no vertices! Using test mesh instead.";
+                var testMesh = CreateTestMesh();
+                Canvas3DControl.SetMesh(testMesh);
+            }
+            else
+            {
+                StatusText.Text = $"Generated text mesh: {mesh.Vertices.Count} vertices, {mesh.Faces.Count} faces";
+
+                // Print bounds info
+                mesh.GetBounds(out var min, out var max);
+                System.Diagnostics.Debug.WriteLine($"Mesh bounds: min=({min.X},{min.Y},{min.Z}) max=({max.X},{max.Y},{max.Z})");
+                StatusText.Text += $" | Bounds: ({min.X:F1},{min.Y:F1}) to ({max.X:F1},{max.Y:F1})";
+
+                Canvas3DControl.SetMesh(mesh);
+            }
+
+            Canvas3DControl.StartAnimation();
+        }
+        catch (Exception ex)
+        {
+            StatusText.Text = $"Error: {ex.Message}";
+            System.Diagnostics.Debug.WriteLine($"Exception: {ex}");
+        }
+    }
+
+    private Mesh3D CreateTestMesh()
+    {
+        var mesh = new Mesh3D();
+
+        // Create a simple square extruded into 3D (like the letter "I")
+        float width = 20;
+        float height = 40;
+        float depth = 10;
+
+        // Front face (4 vertices)
+        mesh.Vertices.Add(new Vector3D(0, 0, 0));
+        mesh.Vertices.Add(new Vector3D(width, 0, 0));
+        mesh.Vertices.Add(new Vector3D(width, height, 0));
+        mesh.Vertices.Add(new Vector3D(0, height, 0));
+
+        // Back face (4 vertices)
+        mesh.Vertices.Add(new Vector3D(0, 0, depth));
+        mesh.Vertices.Add(new Vector3D(width, 0, depth));
+        mesh.Vertices.Add(new Vector3D(width, height, depth));
+        mesh.Vertices.Add(new Vector3D(0, height, depth));
+
+        // Front face triangles
+        mesh.Faces.Add((0, 1, 2));
+        mesh.Faces.Add((0, 2, 3));
+
+        // Back face triangles
+        mesh.Faces.Add((4, 6, 5));
+        mesh.Faces.Add((4, 7, 6));
+
+        // Side faces
+        mesh.Faces.Add((0, 4, 1));
+        mesh.Faces.Add((1, 4, 5));
+
+        mesh.Faces.Add((1, 5, 2));
+        mesh.Faces.Add((2, 5, 6));
+
+        mesh.Faces.Add((2, 6, 3));
+        mesh.Faces.Add((3, 6, 7));
+
+        mesh.Faces.Add((3, 7, 0));
+        mesh.Faces.Add((0, 7, 4));
+
+        return mesh;
+    }
 }

@@ -16,6 +16,8 @@
                        Width="150" Margin="5" Click="GenerateCubeButton_Click"/>
                 <Button Name="GenerateFBXButton" Content="Generate .FBX Cube"
                        Width="150" Margin="5" Click="GenerateFBXButton_Click"/>
+                <Button Name="Generate3DTextButton" Content="Generate 3D Text"
+                       Width="150" Margin="5" Click="Generate3DTextButton_Click"/>
                 <Button Name="LoadModelButton" Content="Load Model File"
                        Width="150" Margin="5" Click="LoadModelButton_Click"/>
             </StackPanel>

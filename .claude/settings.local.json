@@ -6,7 +6,10 @@
       "Bash(dotnet sln:*)",
       "Bash(dotnet add:*)",
       "Bash(rm:*)",
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "Bash(dotnet run:*)",
+      "Bash(dotnet remove:*)",
+      "Bash(timeout 5 dotnet run:*)"
     ],
     "deny": [],
     "ask": []
