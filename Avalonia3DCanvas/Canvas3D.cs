@@ -237,29 +237,41 @@ public class Canvas3D : Control
             transformedVertices.Add(new Point(screenX, screenY));
         }
 
-        var pen = new Pen(LineColor, LineThickness);
-
-        foreach (var face in _mesh.Faces)
+        // Batch all lines into a single geometry for GPU-efficient rendering
+        var geometry = new StreamGeometry();
+        using (var geometryContext = geometry.Open())
         {
-            if (face.Item1 < transformedVertices.Count &&
-                face.Item2 < transformedVertices.Count &&
-                face.Item3 < transformedVertices.Count)
+            foreach (var face in _mesh.Faces)
             {
-                DrawClippedLine(context, pen, transformedVertices[face.Item1], transformedVertices[face.Item2], bounds);
-                DrawClippedLine(context, pen, transformedVertices[face.Item2], transformedVertices[face.Item3], bounds);
-                DrawClippedLine(context, pen, transformedVertices[face.Item3], transformedVertices[face.Item1], bounds);
+                if (face.Item1 < transformedVertices.Count &&
+                    face.Item2 < transformedVertices.Count &&
+                    face.Item3 < transformedVertices.Count)
+                {
+                    var p1 = transformedVertices[face.Item1];
+                    var p2 = transformedVertices[face.Item2];
+                    var p3 = transformedVertices[face.Item3];
+
+                    AddClippedLine(geometryContext, p1, p2, bounds);
+                    AddClippedLine(geometryContext, p2, p3, bounds);
+                    AddClippedLine(geometryContext, p3, p1, bounds);
+                }
             }
         }
+
+        var pen = new Pen(LineColor, LineThickness);
+        context.DrawGeometry(null, pen, geometry);
     }
 
-    private void DrawClippedLine(DrawingContext context, Pen pen, Point p1, Point p2, Rect bounds)
+    private void AddClippedLine(StreamGeometryContext geometryContext, Point p1, Point p2, Rect bounds)
     {
         var clippedP1 = p1;
         var clippedP2 = p2;
 
         if (LineClipper.ClipLine(ref clippedP1, ref clippedP2, bounds))
         {
-            context.DrawLine(pen, clippedP1, clippedP2);
+            geometryContext.BeginFigure(clippedP1, false);
+            geometryContext.LineTo(clippedP2);
+            geometryContext.EndFigure(false);
         }
     }
 }
