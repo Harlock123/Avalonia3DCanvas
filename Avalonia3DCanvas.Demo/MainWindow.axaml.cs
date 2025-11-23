@@ -51,12 +51,13 @@ public partial class MainWindow : Window
 
         var fileTypes = new FilePickerFileType[]
         {
-            new("All 3D Models") { Patterns = new[] { "*.3ds", "*.obj", "*.stl", "*.ply", "*.fbx" } },
+            new("All 3D Models") { Patterns = new[] { "*.3ds", "*.obj", "*.stl", "*.ply", "*.fbx", "*.lwo" } },
             new("3D Studio Files") { Patterns = new[] { "*.3ds" } },
             new("Wavefront OBJ Files") { Patterns = new[] { "*.obj" } },
             new("STL Files") { Patterns = new[] { "*.stl" } },
             new("PLY Files") { Patterns = new[] { "*.ply" } },
             new("FBX Files") { Patterns = new[] { "*.fbx" } },
+            new("LightWave Object Files") { Patterns = new[] { "*.lwo" } },
             new("All Files") { Patterns = new[] { "*.*" } }
         };
 
@@ -214,6 +215,45 @@ public partial class MainWindow : Window
             {
                 var path = result.Path.LocalPath;
                 Canvas3DControl.ExportToOBJ(path, "ExportedModel");
+                StatusText.Text = $"Exported mesh to: {result.Name} ({currentMesh.Vertices.Count} vertices, {currentMesh.Faces.Count} faces)";
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusText.Text = $"Error exporting mesh: {ex.Message}";
+        }
+    }
+
+    private async void ExportToLWOButton_Click(object? sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var currentMesh = Canvas3DControl.GetCurrentMesh();
+            if (currentMesh == null || currentMesh.Vertices.Count == 0)
+            {
+                StatusText.Text = "No mesh to export. Load or generate a model first.";
+                return;
+            }
+
+            var storageProvider = StorageProvider;
+
+            var options = new FilePickerSaveOptions
+            {
+                Title = "Export to LWO File",
+                SuggestedFileName = "model.lwo",
+                FileTypeChoices = new[]
+                {
+                    new FilePickerFileType("LightWave Object Files") { Patterns = new[] { "*.lwo" } },
+                    new FilePickerFileType("All Files") { Patterns = new[] { "*.*" } }
+                }
+            };
+
+            var result = await storageProvider.SaveFilePickerAsync(options);
+
+            if (result != null)
+            {
+                var path = result.Path.LocalPath;
+                Canvas3DControl.ExportToLWO(path, "ExportedModel");
                 StatusText.Text = $"Exported mesh to: {result.Name} ({currentMesh.Vertices.Count} vertices, {currentMesh.Faces.Count} faces)";
             }
         }

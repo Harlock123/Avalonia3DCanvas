@@ -21,15 +21,19 @@
                 <Button Name="LoadModelButton" Content="Load Model File"
                        Width="150" Margin="5" Click="LoadModelButton_Click"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,5">
                 <Button Name="StartAnimationButton" Content="Start Animation"
                        Width="150" Margin="5" Click="StartAnimationButton_Click"/>
                 <Button Name="StopAnimationButton" Content="Stop Animation"
                        Width="150" Margin="5" Click="StopAnimationButton_Click"/>
                 <Button Name="ResetRotationButton" Content="Reset Rotation"
                        Width="150" Margin="5" Click="ResetRotationButton_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Name="ExportToOBJButton" Content="Export to OBJ"
                        Width="150" Margin="5" Click="ExportToOBJButton_Click"/>
+                <Button Name="ExportToLWOButton" Content="Export to LWO"
+                       Width="150" Margin="5" Click="ExportToLWOButton_Click"/>
             </StackPanel>
         </StackPanel>
 

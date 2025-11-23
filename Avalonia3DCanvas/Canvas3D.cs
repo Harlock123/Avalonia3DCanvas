@@ -89,7 +89,8 @@ public class Canvas3D : Control
             ".stl" => ModelSTLLoader.Load(filePath),
             ".ply" => ModelPLYLoader.Load(filePath),
             ".fbx" => ModelFBXLoader.Load(filePath),
-            _ => throw new NotSupportedException($"File format '{extension}' is not supported. Supported formats: .3ds, .obj, .stl, .ply, .fbx")
+            ".lwo" => ModelLWOLoader.Load(filePath),
+            _ => throw new NotSupportedException($"File format '{extension}' is not supported. Supported formats: .3ds, .obj, .stl, .ply, .fbx, .lwo")
         };
 
         InvalidateVisual();
@@ -137,6 +138,17 @@ public class Canvas3D : Control
             throw new ArgumentException("File path cannot be null or empty", nameof(filePath));
 
         ModelOBJWriter.WriteWithName(filePath, _mesh, objectName);
+    }
+
+    public void ExportToLWO(string filePath, string surfaceName = "Default")
+    {
+        if (_mesh == null)
+            throw new InvalidOperationException("No mesh loaded to export");
+
+        if (string.IsNullOrEmpty(filePath))
+            throw new ArgumentException("File path cannot be null or empty", nameof(filePath));
+
+        ModelLWOWriter.Write(filePath, _mesh, surfaceName);
     }
 
     public Mesh3D? GetCurrentMesh()
