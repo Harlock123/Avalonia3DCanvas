@@ -117,6 +117,33 @@ public class Canvas3D : Control
         InvalidateVisual();
     }
 
+    public void ExportToOBJ(string filePath)
+    {
+        if (_mesh == null)
+            throw new InvalidOperationException("No mesh loaded to export");
+
+        if (string.IsNullOrEmpty(filePath))
+            throw new ArgumentException("File path cannot be null or empty", nameof(filePath));
+
+        ModelOBJWriter.Write(filePath, _mesh);
+    }
+
+    public void ExportToOBJ(string filePath, string objectName)
+    {
+        if (_mesh == null)
+            throw new InvalidOperationException("No mesh loaded to export");
+
+        if (string.IsNullOrEmpty(filePath))
+            throw new ArgumentException("File path cannot be null or empty", nameof(filePath));
+
+        ModelOBJWriter.WriteWithName(filePath, _mesh, objectName);
+    }
+
+    public Mesh3D? GetCurrentMesh()
+    {
+        return _mesh;
+    }
+
     public void StartAnimation()
     {
         if (_isAnimating) return;

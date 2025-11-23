@@ -183,4 +183,43 @@ public partial class MainWindow : Window
 
         return mesh;
     }
+
+    private async void ExportToOBJButton_Click(object? sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var currentMesh = Canvas3DControl.GetCurrentMesh();
+            if (currentMesh == null || currentMesh.Vertices.Count == 0)
+            {
+                StatusText.Text = "No mesh to export. Load or generate a model first.";
+                return;
+            }
+
+            var storageProvider = StorageProvider;
+
+            var options = new FilePickerSaveOptions
+            {
+                Title = "Export to OBJ File",
+                SuggestedFileName = "model.obj",
+                FileTypeChoices = new[]
+                {
+                    new FilePickerFileType("Wavefront OBJ Files") { Patterns = new[] { "*.obj" } },
+                    new FilePickerFileType("All Files") { Patterns = new[] { "*.*" } }
+                }
+            };
+
+            var result = await storageProvider.SaveFilePickerAsync(options);
+
+            if (result != null)
+            {
+                var path = result.Path.LocalPath;
+                Canvas3DControl.ExportToOBJ(path, "ExportedModel");
+                StatusText.Text = $"Exported mesh to: {result.Name} ({currentMesh.Vertices.Count} vertices, {currentMesh.Faces.Count} faces)";
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusText.Text = $"Error exporting mesh: {ex.Message}";
+        }
+    }
 }

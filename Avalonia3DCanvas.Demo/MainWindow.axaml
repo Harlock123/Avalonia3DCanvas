@@ -28,6 +28,8 @@
                        Width="150" Margin="5" Click="StopAnimationButton_Click"/>
                 <Button Name="ResetRotationButton" Content="Reset Rotation"
                        Width="150" Margin="5" Click="ResetRotationButton_Click"/>
+                <Button Name="ExportToOBJButton" Content="Export to OBJ"
+                       Width="150" Margin="5" Click="ExportToOBJButton_Click"/>
             </StackPanel>
         </StackPanel>
 
