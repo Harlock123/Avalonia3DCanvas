@@ -5,14 +5,14 @@ and methods and the file formats; this file covers how the code is put together 
 
 ## What this is
 
-`Canvas3D`, an Avalonia 11 (11.3.9) control in C# on .NET 9 that draws a 3D model as a spinning wireframe. It loads
+`Canvas3D`, an Avalonia 11 (11.3.9) control in C# on .NET 10 that draws a 3D model as a spinning wireframe. It loads
 .3ds, .obj, .stl, .ply, .fbx (ASCII) and .lwo files, can build an extruded 3D mesh from text, and can write meshes
 back out. A demo app exercises it. No GPU or 3D library is used: the maths and the loaders are all in this repo.
 
 ## Commands
 
 ```bash
-dotnet build Avalonia3DCanvas.sln                      # needs the .NET 9 SDK or later
+dotnet build Avalonia3DCanvas.sln                      # needs the .NET 10 SDK or later
 dotnet run --project Avalonia3DCanvas.Demo             # the demo window
 ```
 

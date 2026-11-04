@@ -1,6 +1,6 @@
 # Avalonia 3D Canvas Control
 
-A .NET 9 Avalonia control library for displaying 3D models from multiple file formats (.3DS, .OBJ, .STL, .PLY, .FBX) with automatic rotation and canvas resizing.
+A .NET 10 Avalonia control library for displaying 3D models from multiple file formats (.3DS, .OBJ, .STL, .PLY, .FBX) with automatic rotation and canvas resizing.
 
 ![Screenshot](https://raw.githubusercontent.com/Harlock123/Avalonia3DCanvas/master/Documents/Images/Screenshot1.png)
 
@@ -142,7 +142,7 @@ You can obtain 3D model files from:
 
 ## Requirements
 
-- .NET 9.0
+- .NET 10.0
 - Avalonia 11.3.9 or later
 
 ## Building
