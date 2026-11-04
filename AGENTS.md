@@ -63,4 +63,7 @@ There are no tests yet.
 
 ## CI and releases
 
-There is no CI workflow and there are no releases.
+`.github/workflows/build.yml` builds every push and packs the control's NuGet package, then publishes the demo as
+self-contained single files for win-x64/x86/arm64, linux-x64/arm64/arm and osx-x64/arm64, with three sample models
+from `Objects/` beside it. Pushes to `master` refresh the rolling `latest` pre-release; a `v*` tag makes a proper
+release. The `.nupkg` is attached to the release, not pushed to nuget.org.
